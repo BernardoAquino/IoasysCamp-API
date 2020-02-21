@@ -1,0 +1,1185 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Education",
+    "version": "1.0.0",
+    "title": "ioasys CAMP 2020"
+  },
+  "host": "api-edu.herokuapp.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Everything about user"
+    },
+    {
+      "name": "student",
+      "description": "Everything about student"
+    },
+    {
+      "name": "course",
+      "description": "Everything about course"
+    },
+    {
+      "name": "subject",
+      "description": "Everything about subject"
+    },
+    {
+      "name": "helpers",
+      "description": "Everything about helpers"
+    },
+    {
+      "name": "direct",
+      "description": "Everything about direct"
+    },
+    {
+      "name": "request",
+      "description": "Working"
+    },
+    {
+      "name": "subscription",
+      "description": "Working"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Register a new user",
+        "description": "Public Route",
+        "operationId": "createUser",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object that needs to be register",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Register successful"
+          },
+          "400": {
+            "description": "User already exists - Registration failed"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Verify user",
+        "description": "Public Route",
+        "operationId": "verifyUser",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User object that needs to be login",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "401": {
+            "description": "User not found - Invalid password - The user could not be authenticated"
+          }
+        }
+      }
+    },
+    "/students": {
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "List students",
+        "description": "Private Route",
+        "operationId": "findStudents",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Value",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Update students",
+        "description": "Private Route",
+        "operationId": "updateStudents",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "dados",
+            "description": "User object that needs to be update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          },
+          "400": {
+            "description": "Update failed"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/students/{id}": {
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Finds Students by id",
+        "description": "Private Route",
+        "operationId": "findStudentId",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of student to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Delete a student",
+        "description": "Private Route",
+        "operationId": "deleteStudent",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of student to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful deletion"
+          },
+          "400": {
+            "description": "Deletion failed"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/courses": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "List courses",
+        "description": "Public Route",
+        "operationId": "findCourses",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Value",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}": {
+      "get": {
+        "tags": [
+          "course"
+        ],
+        "summary": "Finds course by id",
+        "description": "Public Route",
+        "operationId": "findCourseId",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of course to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/subjects": {
+      "get": {
+        "tags": [
+          "subject"
+        ],
+        "summary": "List subjects",
+        "description": "Public Route",
+        "operationId": "findSubjects",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Value",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subject"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subjects/{id}": {
+      "get": {
+        "tags": [
+          "subject"
+        ],
+        "summary": "Finds subjects by id",
+        "description": "Public Route",
+        "operationId": "findSubjectsId",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of subject to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subject"
+              }
+            }
+          },
+          "404": {
+            "description": "Subject not found"
+          }
+        }
+      }
+    },
+    "/helpers": {
+      "get": {
+        "tags": [
+          "helpers"
+        ],
+        "summary": "List helpers",
+        "description": "Private Route",
+        "operationId": "listHelper",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "institution",
+            "description": "institution",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "course",
+            "description": "course",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "campus",
+            "description": "campus",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "description": "subject",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Helper"
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to fetch helpers.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Helper"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "helpers"
+        ],
+        "summary": "Register helper",
+        "description": "Private Route",
+        "operationId": "storeHelper",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Subject object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Helper"
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to save"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "helpers"
+        ],
+        "summary": "Update helpers",
+        "description": "Private Route",
+        "operationId": "updateHelpers",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "dados",
+            "description": "Subject object that needs to be update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Helper"
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to save"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/helpers/{id}": {
+      "get": {
+        "tags": [
+          "helpers"
+        ],
+        "summary": "Finds helpers by id",
+        "description": "Private Route",
+        "operationId": "findHelpersId",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of helper to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Helper"
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to fetch helpers",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Helper"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "helpers"
+        ],
+        "summary": "Delete a helper",
+        "description": "Private Route",
+        "operationId": "deleteHelper",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of list to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful deletion"
+          },
+          "400": {
+            "description": "Deletion failed"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/directs": {
+      "post": {
+        "tags": [
+          "direct"
+        ],
+        "summary": "Register direct solicitation",
+        "description": "Private Route",
+        "operationId": "storeDirect",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Direct object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Direct"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Direct"
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to create direct message"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/directs/{id}": {
+      "get": {
+        "tags": [
+          "direct"
+        ],
+        "summary": "Finds direct solicitation by id",
+        "description": "Private Route",
+        "operationId": "findDirectId",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of helper to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Direct"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "direct"
+        ],
+        "summary": "Update direct solicitation",
+        "description": "Private Route",
+        "operationId": "updateDirect",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of direct solicitation to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "dados",
+            "description": "Direct solicitation object that needs to be update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Direct"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Direct"
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to update direct message"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "direct"
+        ],
+        "summary": "Delete a direct solicitation",
+        "description": "Private Route",
+        "operationId": "deleteDirect",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of direct message to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful deletion"
+          },
+          "400": {
+            "description": "Deletion failed"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/directs/{id}/{direct}": {
+      "get": {
+        "tags": [
+          "direct"
+        ],
+        "summary": "List direct solicitation",
+        "description": "Private Route",
+        "operationId": "listDirect",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "direct",
+            "description": "direct",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Direct"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/requests": {
+      "get": {
+        "tags": [
+          "request"
+        ],
+        "summary": "List request",
+        "description": "Private Route",
+        "operationId": "listRequest",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "institution",
+            "description": "institution",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "course",
+            "description": "course",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "campus",
+            "description": "campus",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "description": "subject",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Request"
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to fetch Requests"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "student",
+        "email",
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "student": {
+          "$ref": "#/definitions/Student"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Student": {
+      "required": [
+        "name",
+        "course",
+        "gender",
+        "phone",
+        "active",
+        "isHelper"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "course": {
+          "$ref": "#/definitions/Course"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean",
+          "default": true
+        },
+        "isHelper": {
+          "type": "boolean"
+        }
+      },
+      "xml": {
+        "name": "Student"
+      }
+    },
+    "Course": {
+      "required": [
+        "name",
+        "instituition",
+        "campus"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "instituition": {
+          "$ref": "#/definitions/Institution"
+        },
+        "campus": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Course"
+      }
+    },
+    "Subject": {
+      "required": [
+        "course",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "course": {
+          "$ref": "#/definitions/Course"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Subject"
+      }
+    },
+    "Helper": {
+      "required": [
+        "student",
+        "subjects"
+      ],
+      "type": "object",
+      "properties": {
+        "student": {
+          "$ref": "#/definitions/Student"
+        },
+        "subjects": {
+          "$ref": "#/definitions/Subject"
+        }
+      },
+      "xml": {
+        "name": "Helper"
+      }
+    },
+    "Direct": {
+      "required": [
+        "helper",
+        "requester",
+        "subject",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "helper": {
+          "$ref": "#/definitions/Student"
+        },
+        "requester": {
+          "$ref": "#/definitions/Student"
+        },
+        "subject": {
+          "$ref": "#/definitions/Subject"
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date",
+          "default": "now"
+        }
+      },
+      "xml": {
+        "name": "Direct"
+      }
+    },
+    "Subscription": {
+      "required": [
+        "candidate",
+        "help_request",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "candidate": {
+          "$ref": "#/definitions/Student"
+        },
+        "help_request": {
+          "$ref": "#/definitions/Request"
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date",
+          "default": "now"
+        }
+      },
+      "xml": {
+        "name": "Subscription"
+      }
+    },
+    "Institution": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Institution"
+      }
+    },
+    "Request": {
+      "required": [
+        "requester",
+        "helper",
+        "subject",
+        "title",
+        "body",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "requester": {
+          "$ref": "#/definitions/Student"
+        },
+        "helper": {
+          "$ref": "#/definitions/Student"
+        },
+        "subject": {
+          "$ref": "#/definitions/Subject"
+        },
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date",
+          "default": "now"
+        }
+      },
+      "xml": {
+        "name": "Request"
+      }
+    }
+  }
+}
